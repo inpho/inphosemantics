@@ -5,7 +5,7 @@ TODO: Help the user!
 
 #TODO: Install and import vsm (and tell the user to do it as well)
 
-
+#Just a test comment. nothing to see here
 print 'Welcome to InPhO Semantics!'
 
 import inphosemantics
