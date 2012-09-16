@@ -1,40 +1,52 @@
-"""
-TODO: Help the user!
+import os
 
-"""
-
-#TODO: Install and import vsm (and tell the user to do it as well)
-
-#Just a test comment. nothing to see here
-print 'Welcome to InPhO Semantics!'
-
-import inphosemantics
-
-
-def available_corpora():
-    """
-    """
-    corpora = request_corpora()
-
-    print corpora
+from vsm import corpus
 
 
 
-
-def cheatsheet():
-    """
-    """
-    return
-
+__all__ = ['data_root',
+           '_get_plain_corpora',
+           '_get_vsm_corpora',
+           '_get_masking_fns']
 
 
-######################################################################
-#                              Backend
-######################################################################
+
+data_root = '/var/inphosemantics/data/fresh'
 
 
-def request_corpora():
 
-    corpora = ['sep', 'iep', 'philpapers']
+def _get_plain_corpora():
 
-    return corpora
+    plain_corpora = dict()
+    
+    plain_corpora['test'] = os.path.join(data_root, 'test', 'plain')
+
+    return plain_corpora
+
+
+
+def _get_vsm_corpora():
+
+    vsm_corpora = dict()
+
+    vsm_corpora['test'] = os.path.join(data_root, 'test', 'vsmcorp', 'test.npz')
+
+    return vsm_corpora
+
+
+
+def _get_masking_fns():
+    
+    nltk_stop = []
+
+    jones_stop = []
+
+    masking_fns = dict()
+
+    masking_fns['freq1'] = corpus.mask_f1
+    
+    masking_fns['nltk'] = lambda c: corpus.mask_from_stoplist(c, nltk_stop)
+    
+    masking_fns['jones'] = lambda c: corpus.mask_from_stoplist(c, jones_stop)
+
+    return masking_fns
