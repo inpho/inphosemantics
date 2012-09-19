@@ -1,4 +1,4 @@
 
-from corpusio import *
-from modelio import *
-from viewerio import *
+from corpus_io import *
+from model_io import *
+from viewer_io import *

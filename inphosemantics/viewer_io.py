@@ -12,8 +12,8 @@ from vsm.viewer import beagleorderviewer as ordv
 from vsm.viewer import beaglecompositeviewer as comv
 
 import bookkeeping as bk
-import modelio
-import corpusio
+import model_io
+import corpus_io
 
 
 
@@ -27,9 +27,9 @@ def viewer(matrix_name):
 
     corpus_name = matrices.get(matrix_name, 'vsm_corpus')
 
-    corpus = corpusio.load_corpus(corpus_name)
+    corpus = corpus_io.load_corpus(corpus_name)
 
-    matrix = modelio.load_matrix(matrix_name)
+    matrix = model_io.load_matrix(matrix_name)
 
     model_type = matrices.get(matrix_name, 'model_type')
 
@@ -45,7 +45,7 @@ def viewer(matrix_name):
 
     elif model_type == 'lsa':
 
-        return lsaviewer.LsaViewer(corpus=corpus, matrix=matrix)
+        return lsaviewer.LsaViewer(corpus=corpus, svd_matrices=matrix)
 
     elif model_type == 'beagle-environment':
 

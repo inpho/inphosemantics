@@ -11,7 +11,7 @@ from vsm.model import beagleorder
 from vsm.model import beaglecomposite
 
 import bookkeeping as bk
-import corpusio
+import corpus_io
 
 
 
@@ -27,7 +27,7 @@ def train_model(matrix_name):
 
     corpus_name = matrices.get(matrix_name, 'vsm_corpus')
 
-    corpus = corpusio.load_corpus(corpus_name)
+    corpus = corpus_io.load_corpus(corpus_name)
 
     filename = matrices.get(matrix_name, 'filename')
 
