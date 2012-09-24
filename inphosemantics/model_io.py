@@ -128,7 +128,13 @@ def train_model(matrix_name):
 
 
 def matrix_names():
+    '''
+    Returns a list of available pre-trained corpora as specified by the 
+    inphosemantics configuration file.
 
+    For more information on saving and adding new trained models, see...
+		   
+    '''
     matrices = bk._get_matrices()
 
     return matrices.sections()
@@ -136,6 +142,13 @@ def matrix_names():
 
 
 def load_matrix(matrix_name):
+    '''
+    Loads data from a specified pre-trained corpus (i.e. matrix) file. 
+
+    Example:
+       In [1]: load_matrix('sep')
+
+    '''
 
     matrices = bk._get_matrices()
 
