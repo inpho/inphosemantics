@@ -3,6 +3,11 @@ from rpy2.robjects import numpy2ri as npr
 
 
 
+__all__ = ['save_matrix_R',
+           'save_simmat_R']
+
+
+
 def save_matrix_R(filename, matrix):
 
     rmatrix = npr.numpy2ri(matrix)

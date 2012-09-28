@@ -31,13 +31,7 @@ setup(
         "nltk>=2.0.0",
         "vsm>=0.1"
     ],
-    packages=['inphosemantics'],
-
-    # package_data=['inphosemantics':
-    #               ['config/corpora/*',
-    #                'config/matrices/*',
-    #                'config/stoplists/*']]
-
+    packages=['inphosemantics', 'inphosemantics.export', 'inphosemantics.util'],
     data_files=[('inphosemantics/config/corpora',
                  ['inphosemantics/config/corpora/sep-corpora.cfg',
                   'inphosemantics/config/corpora/iep-corpora.cfg',
