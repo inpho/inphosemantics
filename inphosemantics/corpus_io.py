@@ -74,8 +74,26 @@ def _get_masking_fns(corpus_name):
 
 
 
-def write_corpus(corpus_name):
+def tokenize_corpus(corpus_name):
+    '''
+    Takes as its input a specified corpus and tokenizes it; that is, it 
+    deconstructs a series of strings by word, sentence, and paragraph and 
+    returns a list of each respective category. 
+    
+    Word tokenization employs NLTK's Penn Treeback Word Tokenizer; as such,
+    words are tokenized according to the conventions used by the Penn 
+    Treebank.
 
+    Sentence tokenization employs NLTK's Punkt tokenzier. The algorithm for 
+    this tokenizer is described in Kiss & Strunk (2006).
+    
+    Paragraph tokenization is accomplished through the recognition of 
+    paragraphs as indicated by two consecutive line breaks.
+    
+    Example:
+       In [1]: tokenize_corpus('sep')
+     
+    '''
     corpora = bk._get_corpora()
 
     plain_file = corpora.get(corpus_name, 'plain_dir')
@@ -110,7 +128,11 @@ def write_corpus(corpus_name):
 
 
 def load_corpus(corpus_name):
-
+    '''
+    Loads data from a specified corpus into a MaskedCorpus object that has 
+    been stored using `save`. Returns a MaskedCorpus object storing the data 
+    found in the speciied corpus file.
+    '''
     corpora = bk._get_corpora()
 
     filename = corpora.get(corpus_name, 'filename')
@@ -124,6 +146,12 @@ def load_corpus(corpus_name):
 
 
 def corpus_names():
+    '''
+    Returns a list of available corpora as specified by the inphosemantics
+    configuration file.
+
+    For detailed instructions on adding new corpora, see...
+    '''
 
     corpora = bk._get_corpora()
 
@@ -132,7 +160,9 @@ def corpus_names():
 
 
 def load_stoplist(stoplist_name):
-
+    '''
+    Load an available stoplist. 
+    '''
     stoplists = bk._get_stoplists()
 
     filename = stoplists.get(stoplist_name, 'filename')
