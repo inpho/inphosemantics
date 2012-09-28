@@ -32,6 +32,12 @@ setup(
         "vsm>=0.1"
     ],
     packages=['inphosemantics'],
+
+    # package_data=['inphosemantics':
+    #               ['config/corpora/*',
+    #                'config/matrices/*',
+    #                'config/stoplists/*']]
+
     data_files=[('inphosemantics/config/corpora',
                  ['inphosemantics/config/corpora/sep-corpora.cfg',
                   'inphosemantics/config/corpora/iep-corpora.cfg',
@@ -43,4 +49,6 @@ setup(
                   'inphosemantics/config/matrices/philpapers-matrices.cfg',
                   'inphosemantics/config/matrices/test-matrices.cfg']),
                 ('inphosemantics/config/stoplists',
-                 ['inphosemantics/config/stoplists/stoplists.cfg'])])
+                 ['inphosemantics/config/stoplists/stoplists.cfg'])]
+
+    )
