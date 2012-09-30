@@ -9,7 +9,7 @@ import bookkeeping as bk
 
 
 
-__all__ = ['write_corpus',
+__all__ = ['tokenize_corpus',
            'load_corpus',
            'corpus_names',
            'load_stoplist']
