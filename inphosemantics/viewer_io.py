@@ -27,7 +27,7 @@ def viewer(matrix_name):
 
     corpus_name = matrices.get(matrix_name, 'vsm_corpus')
 
-    corpus = corpus_io.load_corpus(corpus_name)
+    corpus = corpus_io.load_vsm_corpus(corpus_name)
 
     matrix = model_io.load_matrix(matrix_name)
 
