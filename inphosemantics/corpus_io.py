@@ -76,23 +76,40 @@ def _get_masking_fns(corpus_name):
 
 def tokenize_corpus(corpus_name):
     '''
+    tokenize_corpus(corpus_name)
+
+    Tokenize a given corpus; that is, deconstruct a series of
+    strings by word, sentence, and paragraph. 
+
+    Parameters
+    ----------
+    corpus_name : string
+        The plain name of the corpus of interest, as specified 
+	in the configuration file. 
+
     Takes as its input a specified corpus and tokenizes it; that is, it 
     deconstructs a series of strings by word, sentence, and paragraph and 
     returns a list of each respective category. 
     
-    Word tokenization employs NLTK's Penn Treeback Word Tokenizer; as such,
-    words are tokenized according to the conventions used by the Penn 
-    Treebank.
+    Returns
+    -------
+    matrix : #NEEDS UPDATES
 
-    Sentence tokenization employs NLTK's Punkt tokenzier. The algorithm for 
-    this tokenizer is described in Kiss & Strunk (2006).
+    Notes
+    -----
+
+    Word tokenization employs NLTK's Penn Treeback Word Tokenizer.
+
+    Sentence tokenization employs NLTK's Punkt tokenzier. 
+    (See Kiss & Strunk (2006)).
     
     Paragraph tokenization is accomplished through the recognition of 
     paragraphs as indicated by two consecutive line breaks.
     
-    Example:
-       In [1]: tokenize_corpus('sep')
-     
+    Examples
+    --------
+    In [1]: tokenize_corpus('sep')
+     #NEEDS UPDATES
     '''
     corpora = bk._get_corpora()
 
