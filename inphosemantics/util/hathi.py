@@ -109,11 +109,12 @@ def cp_hathi_rawtoplain(confirm=False):
     if confirm:
 
         for book in os.listdir(hathi_root):
-
             # For debugging
             # if book == 'uc2.ark+=13960=t1zc80k1p':
             # if book == 'uc2.ark+=13960=t8tb11c8g':
-                
+            # if book == 'uc2.ark+=13960=t74t6gz6r':
+
+
             book_root = os.path.join(hathi_root, book)
             
             raw_root = os.path.join(book_root, 'raw')
@@ -121,7 +122,7 @@ def cp_hathi_rawtoplain(confirm=False):
             plain_root = os.path.join(book_root, 'plain')
             
             raw_files = os.listdir(raw_root)
-            
+                
             os.mkdir(plain_root)
             
             print 'Copying from', raw_root
@@ -214,6 +215,8 @@ def proc_hathi_coll():
         # For debugging
         # if book == 'uc2.ark+=13960=t1zc80k1p':
         # if book == 'uc2.ark+=13960=t8tb11c8g':
+
+        # if book == 'uc2.ark+=13960=t74t6gz6r':
 
         proc_hathi_book(book)
             
@@ -331,7 +334,7 @@ def rm_pg_headers(plain_root, logger, bound=1):
 
     first_lines = []
 
-    fl = re.compile(r'^\s*([^\n]*\S)*\s\n')
+    fl = re.compile(r'^\s*([^\n]*)\n')
     
     for page_file in page_files:
 
