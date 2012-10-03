@@ -31,16 +31,19 @@ setup(
         "nltk>=2.0.0",
         "vsm>=0.1"
     ],
-    packages=['inphosemantics'],
-    data_files=[('inphosemantics/config/corpora',
-                 ['inphosemantics/config/corpora/sep-corpora.cfg',
-                  'inphosemantics/config/corpora/iep-corpora.cfg',
-                  'inphosemantics/config/corpora/philpapers-corpora.cfg',
-                  'inphosemantics/config/corpora/test-corpora.cfg']),
+    packages=['inphosemantics', 'inphosemantics.export', 'inphosemantics.util'],
+    data_files=[('inphosemantics/config/vsm-corpora',
+                 ['inphosemantics/config/vsm-corpora/sep-corpora.cfg',
+                  'inphosemantics/config/vsm-corpora/iep-corpora.cfg',
+                  'inphosemantics/config/vsm-corpora/philpapers-corpora.cfg',
+                  'inphosemantics/config/vsm-corpora/test-corpora.cfg']),
+                ('inphosemantics/config/plain-corpora',
+                 ['inphosemantics/config/plain-corpora/plain-corpora.cfg']),
                 ('inphosemantics/config/matrices',
                  ['inphosemantics/config/matrices/sep-matrices.cfg',
                   'inphosemantics/config/matrices/iep-matrices.cfg',
                   'inphosemantics/config/matrices/philpapers-matrices.cfg',
                   'inphosemantics/config/matrices/test-matrices.cfg']),
                 ('inphosemantics/config/stoplists',
-                 ['inphosemantics/config/stoplists/stoplists.cfg'])])
+                 ['inphosemantics/config/stoplists/stoplists.cfg'])]
+    )

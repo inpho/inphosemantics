@@ -9,20 +9,22 @@ import bookkeeping as bk
 
 
 
-__all__ = ['write_corpus',
-           'load_corpus',
-           'corpus_names',
+__all__ = ['tokenize_corpus',
+           'load_vsm_corpus',
+           'vsm_corpus_names',
+           'plain_corpus_names',
+           'corpus_metadata',
            'load_stoplist']
 
 
 
-def _is_compressed(corpus_name):
+def _is_compressed(vsm_corpus_name):
 
-    corpora = bk._get_corpora()
+    corpora = bk._get_vsm_corpora()
 
     try:
 
-        return corpora.getboolean(corpus_name, 'compressed')
+        return corpora.getboolean(vsm_corpus_name, 'compressed')
 
     except bk.cfg.NoOptionError:
 
@@ -30,15 +32,17 @@ def _is_compressed(corpus_name):
 
 
 
-def _get_masking_fns(corpus_name):
+def _get_masking_fns(vsm_corpus_name):
 
-    corpora = bk._get_corpora()
+    corpora = bk._get_vsm_corpora()
 
     masking_fns = []
 
+
+
     try:
 
-        if corpora.getboolean(corpus_name, 'freq1'):
+        if corpora.getboolean(vsm_corpus_name, 'freq1'):
 
             masking_fns.append(corpus.mask_f1)
 
@@ -46,35 +50,31 @@ def _get_masking_fns(corpus_name):
 
         pass
 
-    try:
 
-        if corpora.getboolean(corpus_name, 'nltk'):
 
-            stop = load_stoplist('nltk')
+    stoplists = bk._get_stoplists()
 
-            masking_fns.append(lambda c: corpus.mask_from_stoplist(c, stop))
+    for name in stoplists.sections():
+        
+        try:
 
-    except bk.cfg.NoOptionError:
+            if corpora.getboolean(vsm_corpus_name, name):
 
-        pass
+                stop = load_stoplist(name)
 
-    try:
+                masking_fns.append(lambda c: corpus.mask_from_stoplist(c, stop))
 
-        if corpora.getboolean(corpus_name, 'jones'):
+        except bk.cfg.NoOptionError:
 
-            stop = load_stoplist('jones')
+            pass
+        
 
-            masking_fns.append(lambda c: corpus.mask_from_stoplist(c, stop))
-
-    except bk.cfg.NoOptionError:
-
-        pass
 
     return masking_fns
 
 
 
-def tokenize_corpus(corpus_name):
+def tokenize_corpus(vsm_corpus_name, write_file=True):
     '''
     tokenize_corpus(corpus_name)
 
@@ -86,10 +86,6 @@ def tokenize_corpus(corpus_name):
     corpus_name : string
         The plain name of the corpus of interest, as specified 
 	in the configuration file. 
-
-    Takes as its input a specified corpus and tokenizes it; that is, it 
-    deconstructs a series of strings by word, sentence, and paragraph and 
-    returns a list of each respective category. 
     
     Returns
     -------
@@ -112,14 +108,20 @@ def tokenize_corpus(corpus_name):
      #NEEDS UPDATES
     '''
     corpora = bk._get_corpora()
+     
+    vsm_corpora = bk._get_vsm_corpora()
 
-    plain_file = corpora.get(corpus_name, 'plain_dir')
+    vsm_corpus_file = vsm_corpora.get(vsm_corpus_name, 'filename')
+    
+    plain_name = vsm_corpora.get(vsm_corpus_name, 'plain_name')
 
-    vsm_corpus_file = corpora.get(corpus_name, 'filename')
+    plain_corpora = bk._get_plain_corpora()
+    
+    plain_dir = plain_corpora.get(plain_name, 'dir')
 
 
 
-    tok = util.MultipleArticleTokenizer(plain_file)
+    tok = util.MultipleArticleTokenizer(plain_dir)
 
     c = corpus.MaskedCorpus(corpus=tok.words,
                             tok_names=tok.tok_names,
@@ -127,7 +129,7 @@ def tokenize_corpus(corpus_name):
 
 
 
-    masking_fns = _get_masking_fns(corpus_name)
+    masking_fns = _get_masking_fns(vsm_corpus_name)
 
     for fn in masking_fns:
 
@@ -135,26 +137,32 @@ def tokenize_corpus(corpus_name):
 
 
 
-    if _is_compressed(corpus_name):
+    if _is_compressed(vsm_corpus_name):
 
         c = c.to_corpus(compress=True)
 
 
-    c.save(vsm_corpus_file)
+    if write_file:
+
+        c.save(vsm_corpus_file)
+        
+
+    return c
 
 
 
-def load_corpus(corpus_name):
-    '''
+
+def load_vsm_corpus(vsm_corpus_name):
+    """
     Loads data from a specified corpus into a MaskedCorpus object that has 
     been stored using `save`. Returns a MaskedCorpus object storing the data 
     found in the speciied corpus file.
-    '''
-    corpora = bk._get_corpora()
+    """
+    corpora = bk._get_vsm_corpora()
 
-    filename = corpora.get(corpus_name, 'filename')
+    filename = corpora.get(vsm_corpus_name, 'filename')
 
-    if _is_compressed(corpus_name):
+    if _is_compressed(vsm_corpus_name):
 
         return corpus.Corpus.load(filename)
 
@@ -162,24 +170,33 @@ def load_corpus(corpus_name):
 
 
 
-def corpus_names():
-    '''
+def vsm_corpus_names():
+    """
     Returns a list of available corpora as specified by the inphosemantics
     configuration file.
 
     For detailed instructions on adding new corpora, see...
-    '''
+    """
 
-    corpora = bk._get_corpora()
+    vsm_corpora = bk._get_vsm_corpora()
 
-    return corpora.sections()
+    return vsm_corpora.sections()
+
+
+    
+def plain_corpus_names():
+    """
+    """
+    plain_corpora = bk._get_plain_corpora()
+
+    return plain_corpora.sections()
 
 
 
 def load_stoplist(stoplist_name):
-    '''
+    """
     Load an available stoplist. 
-    '''
+    """
     stoplists = bk._get_stoplists()
 
     filename = stoplists.get(stoplist_name, 'filename')
@@ -187,5 +204,17 @@ def load_stoplist(stoplist_name):
     with open(filename, 'r') as f:
 
         return f.read().split('\n')
+
+
+
+def corpus_metadata(plain_name):
+
+    plain_corpora = bk._get_plain_corpora()
+
+    metadata_file = plain_corpora.get(plain_name, 'metadata')
+
+    with open(metadata_file, 'r') as f:
+
+        return f.read()
 
     

@@ -17,7 +17,8 @@ import corpus_io
 
 __all__ = ['train_model',
            'matrix_names',
-           'load_matrix']
+           'load_matrix',
+           'model_types']
 
 
 
@@ -27,7 +28,7 @@ def train_model(matrix_name):
 
     corpus_name = matrices.get(matrix_name, 'vsm_corpus')
 
-    corpus = corpus_io.load_corpus(corpus_name)
+    corpus = corpus_io.load_vsm_corpus(corpus_name)
 
     filename = matrices.get(matrix_name, 'filename')
 
@@ -161,3 +162,20 @@ def load_matrix(matrix_name):
         return lsa.LsaModel.load_matrix(filename)
 
     return model.Model.load_matrix(filename)
+
+
+
+def model_types():
+
+    model_types = set()
+
+    matrices = bk._get_matrices()
+
+    for m in matrices.sections():
+
+        model_types.add(matrices.get(m, 'model_type'))
+        
+    return list(model_types)
+
+
+
