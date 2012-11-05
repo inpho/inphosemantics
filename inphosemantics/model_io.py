@@ -138,13 +138,24 @@ def train_model(matrix_name):
 
 
 def matrix_names():
-    '''
-    Returns a list of available pre-trained corpora as specified by the 
-    inphosemantics configuration file.
+    """
+    matrix_names()
 
-    For more information on saving and adding new trained models, see...
-		   
-    '''
+    Returns a list of available pre-trained corpora as specified by the 
+    configuration file.
+
+    Examples
+    --------
+    In [1]: matrix_names()
+    Out[1]: 
+    ['test-beagle-context',
+     'test-beagle-order',
+     'test-tfidf-paragraphs',
+     'test-beagle-environment',
+     'test-tf-paragraphs',
+     'test-lsa-paragraphs',
+     'test-beagle-composite']
+    """		   
     matrices = bk._get_matrices()
 
     return matrices.sections()
@@ -153,11 +164,24 @@ def matrix_names():
 
 def load_matrix(matrix_name):
     '''
-    Loads data from a specified pre-trained corpus (i.e. matrix) file. 
+    load_matrix(matrix_name)
 
-    Example:
-       In [1]: load_matrix('sep')
+    Loads data from a specified pre-trained corpus matrix file.
+    
+    Parameters
+    ----------
+    matrix_name : string
+    	Named of pre-trained corpus, as specified by the
+	configuration file.
 
+    Returns
+    -------
+    matrix : list of arrays of tokenized data. 
+
+    Examples
+    --------
+    In [1]: c = load_matrix('test-lsa-paragraphs')
+    Loading LSA matrices from /var/inphosemantics/data/fresh/test/vsm-matrices/test-freq1-nltk-lsa-paragraphs-300.npz
     '''
 
     matrices = bk._get_matrices()
@@ -175,7 +199,25 @@ def load_matrix(matrix_name):
 
 
 def model_types():
+    """
+    model_types()
 
+    Returns a list of available models as specified by the 
+    configuration file.
+
+    Examples
+    --------
+    In [1]: model_types()
+    Out[1]: 
+    ['beagle-environment',
+    'lsa',
+    'tfidf',
+    'beagle-context',
+    'beagle-composite',
+    'tf',
+    'beagle-order']
+   
+    """
     model_types = set()
 
     matrices = bk._get_matrices()

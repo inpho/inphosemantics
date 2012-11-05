@@ -99,25 +99,45 @@ def _get_masking_fns(vsm_corpus_name):
 
 
 def tokenize_corpus(vsm_corpus_name, write_file=True):
-    """
-    Takes as its input a specified corpus and tokenizes it; that is, it 
-    deconstructs a series of strings by word, sentence, and paragraph and 
-    returns a list of each respective category. 
-    
-    Word tokenization employs NLTK's Penn Treeback Word Tokenizer; as such,
-    words are tokenized according to the conventions used by the Penn 
-    Treebank.
+    '''
+    tokenize_corpus(vsm_corpus_name, write_file=True)
 
-    Sentence tokenization employs NLTK's Punkt tokenzier. The algorithm for 
-    this tokenizer is described in Kiss & Strunk (2006).
+    Tokenize a given corpus; that is, deconstruct a series of
+    strings by word, sentence, and paragraph. 
+
+    Parameters
+    ----------
+    tokenize_corpus_name : string
+        The plain name of the corpus of interest, as specified 
+	in the configuration file. 
+    
+    write_file : string, optional
+    	If 'True', the tokenized corpus is written to a file.
+	Otherwise, tokenized corpus is not written. 
+
+    Returns
+    -------
+    MaskedCorpus : The array of token data,
+    	"vsm.corpus.MaskedCorpus".
+
+    Notes
+    -----
+    Word tokenization employs NLTK's Penn Treeback Word Tokenizer.
+
+    Sentence tokenization employs NLTK's Punkt tokenzier. 
+    (See Kiss & Strunk (2006)).
     
     Paragraph tokenization is accomplished through the recognition of 
     paragraphs as indicated by two consecutive line breaks.
     
-    Example:
-       In [1]: tokenize_corpus('sep')
+    Examples
+    --------
+    In [1]: c = tokenize_corpus('sep')
+    
+    In [2]: c = tokenize_corpus('sep', False)
+    '''
+    corpora = bk._get_corpora()
      
-    """
     vsm_corpora = bk._get_vsm_corpora()
 
     vsm_corpus_file = vsm_corpora.get(vsm_corpus_name, 'filename')
@@ -165,9 +185,26 @@ def tokenize_corpus(vsm_corpus_name, write_file=True):
 
 def load_vsm_corpus(vsm_corpus_name):
     """
-    Loads data from a specified corpus into a MaskedCorpus object that has 
-    been stored using `save`. Returns a MaskedCorpus object storing the data 
-    found in the speciied corpus file.
+    load_vsm_corpus(vsm_corpus_name)
+
+    Loads stored data from a specified corpus as found in the 
+    configuration file. 
+
+    Parameters
+    ----------
+    vsm_corpus_name : string
+    	The name of the tokenized corpus of interest, as 
+	found in the configuration file.
+
+    Returns
+    -------
+    MaskedCorpus : The array of token data,
+    	"vsm.corpus.MaskedCorpus".
+    
+    Examples
+    --------
+    In [1]: c = load_vsm_corpus('sep')
+    Loading corpus from /var/inphosemantics/data/fresh/sep/vsm-corpora/sep.npz 
     """
     corpora = bk._get_vsm_corpora()
 
@@ -183,10 +220,15 @@ def load_vsm_corpus(vsm_corpus_name):
 
 def vsm_corpus_names():
     """
-    Returns a list of available corpora as specified by the inphosemantics
+    vsm_corpus_names()
+
+    Returns a list of available corpora as specified in the 
     configuration file.
 
-    For detailed instructions on adding new corpora, see...
+    Examples
+    --------
+    In [9]: plain_corpus_names()
+    Out[9]: ['philpapers', 'iep', 'test', 'sep']
     """
 
     vsm_corpora = bk._get_vsm_corpora()
@@ -197,6 +239,19 @@ def vsm_corpus_names():
     
 def plain_corpus_names():
     """
+    plain_corpus_names()
+
+    Returns a directory of the parent classes of available 
+    corpora as specified in the configuration file.
+
+    Examples
+    --------
+    In [8]: vsm_corpus_names()
+    Out[8]: 
+    ['test-freq1-nltk-compressed',
+     'test-freq1-nltk',
+     'test-freq1-nltk-jones',
+     'test']
     """
     plain_corpora = bk._get_plain_corpora()
 
@@ -219,7 +274,28 @@ def load_stoplist(stoplist_name):
 
 
 def corpus_metadata(plain_name):
+    """
+    corpus_metadata(plain_name)
 
+    Returns the metadata of a specified corpus family 
+    as specified in the configuration file.
+
+    Parameters
+    ----------
+    plain_name : string
+    	The plain name of a corpus.
+    
+    Returns
+    -------
+    metadata : string
+    	The metadata of a specified corpus.
+
+    Example
+    -------
+    In [12]: corpus_metadata('sep')
+    Out[12]: 'http://plato.stanford.edu/\n'
+
+    """
     plain_corpora = bk._get_plain_corpora()
 
     metadata_file = plain_corpora.get(plain_name, 'metadata')
