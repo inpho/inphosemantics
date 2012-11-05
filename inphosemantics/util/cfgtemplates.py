@@ -24,7 +24,7 @@ def add_inpho_plain(plain_cfg, plain_name, corpus_root, metadata_file):
 
 
 
-def add_inpho_vsm_corp(vsm_corp_cfg, plain_name, corpus_root):
+def add_inpho_vsm_corp(vsm_corp_cfg, plain_name, corpus_root, tokenizer='articles'):
 
     vsm_corp_root = os.path.join(corpus_root, 'vsm-corpora')
 
@@ -37,6 +37,8 @@ def add_inpho_vsm_corp(vsm_corp_cfg, plain_name, corpus_root):
     vsm_corp_cfg.set(section, 'filename', filename)
 
     vsm_corp_cfg.set(section, 'plain_name', plain_name)
+
+    vsm_corp_cfg.set(section, 'tokenizer', tokenizer)
 
     vsm_corp_cfg.set(section, 'freq1', 'True')
 
@@ -52,6 +54,8 @@ def add_inpho_vsm_corp(vsm_corp_cfg, plain_name, corpus_root):
 
     vsm_corp_cfg.set(section, 'plain_name', plain_name)
 
+    vsm_corp_cfg.set(section, 'tokenizer', tokenizer)
+    
     vsm_corp_cfg.set(section, 'freq1', 'True')
 
     vsm_corp_cfg.set(section, 'nltk', 'True')
@@ -63,7 +67,7 @@ def add_inpho_vsm_corp(vsm_corp_cfg, plain_name, corpus_root):
 
 
 
-def add_inpho_matrices(matrices_cfg, plain_name, corpus_root):
+def add_inpho_matrices(matrices_cfg, plain_name, corpus_root, rand_file):
 
     matrices_root = os.path.join(corpus_root, 'vsm-matrices')
 
@@ -136,6 +140,8 @@ def add_inpho_matrices(matrices_cfg, plain_name, corpus_root):
     matrices_cfg.set(section, 'model_type', 'beagle-environment')
 
     matrices_cfg.set(section, 'n_columns', '2048')
+
+    matrices_cfg.set(section, 'rand_vec_pool', rand_file)
         
     section = plain_name + '-beagle-context'
 

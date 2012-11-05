@@ -7,6 +7,7 @@ import ConfigParser as cfg
 from nltk.corpus import wordnet as wn
 import enchant
 
+import inphosemantics as sem
 from inphosemantics import bookkeeping as bk
 import cfgtemplates as tmpl
 
@@ -179,7 +180,8 @@ def write_hathi_vsm_corp_cfg():
 
         book_root = os.path.join(hathi_root, book)
 
-        tmpl.add_inpho_vsm_corp(vsm_corp_cfg, book, book_root)
+        tmpl.add_inpho_vsm_corp(vsm_corp_cfg, book,
+                                book_root, tokenizer='book')
 
     with open(cfg_file, 'w') as f:
 
@@ -418,4 +420,26 @@ def rm_pg_headers(plain_root, logger, bound=1):
                 f.write(page)
 
 
-    
+
+def write_batch(model_type, filename):
+
+    matrices = sem.matrix_names()
+
+    # filters matrices by model_type
+    matrices = [m for m in matrices
+                if re.search('-' + model_type + '(-|$)', m)]
+
+    # filters matrices by occurrence of a `.`; temporary heuristic for
+    # separating out non-Hathi matrices
+    matrices = [m for m in matrices
+                if re.search(r'\.', m)]
+
+    with open(filename, 'w') as f:
+
+        for m in matrices:
+
+            command = 'python -c \"import inphosemantics as sem; '
+
+            command += 'sem.train_model(\'%s\')\"\n'%m 
+
+            f.write(command)

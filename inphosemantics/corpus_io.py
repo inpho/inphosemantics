@@ -3,7 +3,7 @@
 
 
 from vsm import corpus
-from vsm.corpus import util
+from inphosemantics.util import tokenizers as tkz
 
 import bookkeeping as bk
 
@@ -29,6 +29,30 @@ def _is_compressed(vsm_corpus_name):
     except bk.cfg.NoOptionError:
 
         return False
+
+
+
+def _tokenizer_type(vsm_corpus_name):
+
+    corpora = bk._get_vsm_corpora()
+
+    try:
+
+        tkz_type = corpora.get(vsm_corpus_name, 'tokenizer')
+
+    except bk.cfg.NoOptionError:
+
+        tkz_type = 'articles'
+
+
+
+    if tkz_type == 'book':
+
+        return tkz.BookTokenizer
+
+    if tkz_type == 'articles':
+
+        return tkz.MultipleArticlesTokenizer
 
 
 
@@ -106,7 +130,9 @@ def tokenize_corpus(vsm_corpus_name, write_file=True):
 
 
 
-    tok = util.MultipleArticleTokenizer(plain_dir)
+    TkzClass = _tokenizer_type(vsm_corpus_name)
+
+    tok = TkzClass(plain_dir)
 
     c = corpus.MaskedCorpus(corpus=tok.words,
                             tok_names=tok.tok_names,

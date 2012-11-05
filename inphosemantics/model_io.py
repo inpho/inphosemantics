@@ -1,6 +1,8 @@
 # Functions to train various vector space models on InPhO-related
 # corpora
 
+import pickle
+
 from vsm import model
 from vsm.model import tf
 from vsm.model import tfidf
@@ -78,8 +80,15 @@ def train_model(matrix_name):
 
         n_columns = matrices.getint(matrix_name, 'n_columns')
 
+        # rand_file = matrices.get(matrix_name, 'rand_file')
+
+        # rand_pool = load_rand_pool(rand_file)
+
+        # m.train(corpus, n_columns=n_columns, rand_pool=rand_pool)
+
         m.train(corpus, n_columns=n_columns)
 
+        # save_rand_pool(rand_pool, rand_file)
 
 
     elif model_type == 'beagle-context':
@@ -179,3 +188,16 @@ def model_types():
 
 
 
+def load_rand_pool(rand_file):
+
+    with open(rand_file, 'r') as f:
+
+        return pickle.load(f)
+
+
+
+def save_rand_pool(pool, rand_file):
+
+    with open(rand_file, 'w') as f:
+
+        pickle.dump(pool, f)
