@@ -8,17 +8,17 @@ __all__ = ['save_matrix_R',
 
 
 
-def save_matrix_R(filename, matrix, row_labels=None, col_labels=None):
+def save_matrix_R(filename, matrix, row_labels=[], col_labels=[]):
 
     rmatrix = npr.numpy2ri(matrix)
 
     r.assign('data', rmatrix)
     
-    if row_labels:
+    if len(row_labels) > 0:
         
         r("rownames(%s) <- c%s" % ('data', tuple(row_labels)))
 
-    if col_labels:
+    if len(col_labels) > 0:
 
         r("colnames(%s) <- c%s" % ('data', tuple(col_labels)))
 
