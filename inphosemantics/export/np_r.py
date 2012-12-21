@@ -8,7 +8,7 @@ __all__ = ['save_matrix_R',
 
 
 
-def save_labeled_mat_R(filename, matrix, row_labels=None, col_labels=None):
+def save_matrix_R(filename, matrix, row_labels=None, col_labels=None):
 
     rmatrix = npr.numpy2ri(simmat.matrix)
 
