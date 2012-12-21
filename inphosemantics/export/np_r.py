@@ -10,7 +10,7 @@ __all__ = ['save_matrix_R',
 
 def save_matrix_R(filename, matrix, row_labels=None, col_labels=None):
 
-    rmatrix = npr.numpy2ri(simmat.matrix)
+    rmatrix = npr.numpy2ri(matrix)
 
     r.assign('data', rmatrix)
     
